@@ -4,6 +4,7 @@ import * as fs from 'fs';
 
 const server = http.createServer();
 let pathDir = p.resolve(__dirname, 'public');
+let cacheAge = 3600 * 24 * 365;
 server.on('request', (request, response) => {
   let url = request.url;
   let path = p.resolve(pathDir, url.slice(1));
@@ -29,6 +30,7 @@ server.on('request', (request, response) => {
         response.end('服务器繁忙，请稍后再试')
       }
     } else {
+      response.setHeader('Cache-Control',`public,max-age=${cacheAge}`)
       response.statusCode = 200;
       response.end(data)
     }
