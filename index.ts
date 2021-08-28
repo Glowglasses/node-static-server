@@ -16,12 +16,11 @@ server.on('request', (request, response) => {
       if (error.errno === -4068) {
         response.statusCode = 403;
         response.setHeader('Content-Type','text/ plain;charset=utf-8');
-        response.write('么有权限查看目录');
-        response.end();
+        response.end('么有权限查看目录');
       } else if (error.errno === -4058) {
+        response.statusCode = 404
         fs.readFile(p.resolve(pathDir, '404.html'), (error, data) => {
           if (error) throw error;
-          response.statusCode = 404
           response.end(data);
         });
       }else {
